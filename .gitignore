@@ -1,0 +1,4 @@
+.temp_cache
+.dccache
+dist
+node_modules
