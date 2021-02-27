@@ -1,0 +1,66 @@
+{
+  "name": "service-report",
+  "main": "dist/report.js",
+  "typings": "dist/index.d.ts",
+  "version": "0.0.1",
+  "description": "service report backend service",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-validator": "^6.10.0"
+  },
+  "scripts": {
+    "postinstall": "husky install",
+    "lint": "eslint 'src/**/*.{js,ts}' --quiet --fix",
+    "dev": "webpack --config build/webpack.config.js --env target=development --env lint=true --mode development --watch",
+    "build": "webpack --config build/webpack.config.js --env target=production",
+    "start": "node ./dist/report.js",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/plugin-proposal-export-default-from": "^7.12.13",
+    "@babel/plugin-proposal-export-namespace-from": "^7.12.13",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
+    "@babel/preset-env": "^7.13.8",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/express": "^4.17.11",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.31",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "babel-jest": "^26.6.3",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-webpack-plugin": "^2.5.2",
+    "husky": "^5.1.1",
+    "jest": "^26.6.3",
+    "json-loader": "^0.5.7",
+    "lint-staged": "^10.5.4",
+    "nodemon-webpack-plugin": "^4.4.4",
+    "prettier": "^2.2.1",
+    "ts-loader": "^8.0.17",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0",
+    "webpack-node-externals": "^2.5.2"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --config .eslintrc.js --fix --max-warnings 5",
+      "yarn test"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}

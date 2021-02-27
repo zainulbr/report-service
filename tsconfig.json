@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "es2020",
+    "target": "es2020",
+    "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "declaration": true,
+    "allowJs": true,
+    "paths": {
+      "~": ["."],
+      "@": ["./src"],
+      "@@": ["./typings"]
+    }
+  },
+  "files": ["./src/index.ts"]
+}
