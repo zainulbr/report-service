@@ -12,13 +12,17 @@ const configFunc = (env) => {
     process.env.NODE_ENV = 'production'
   }
 
-  const plugins = [new NodemonPlugin()]
+  const plugins = [new NodemonPlugin(
+    {
+      ext: 'js,json,ts',
+    }
+  )]
 
   if (optLint) {
     plugins.unshift(
       new ESLintPlugin({
         files: ['src'],
-        extensions: ['js', 'ts'],
+        extensions: ['js', 'ts','json'],
         emitError: true,
         failOnError: false,
         formatter: require('eslint-friendly-formatter'),

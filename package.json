@@ -6,8 +6,13 @@
   "description": "service report backend service",
   "private": true,
   "dependencies": {
+    "carbone": "^2.1.1",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "debug": "^4.3.1",
     "express": "^4.17.1",
-    "express-validator": "^6.10.0"
+    "express-validator": "^6.10.0",
+    "helmet": "^4.4.1"
   },
   "scripts": {
     "postinstall": "husky install",
@@ -15,7 +20,7 @@
     "dev": "webpack --config build/webpack.config.js --env target=development --env lint=true --mode development --watch",
     "build": "webpack --config build/webpack.config.js --env target=production",
     "start": "node ./dist/report.js",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
