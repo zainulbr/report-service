@@ -1,18 +1,31 @@
 import { CommonRoutesConfig } from './routes/common'
 import { ReportRoutes } from './routes/report'
+import { Init as InitReportService } from './libs/report/index'
+import {
+  Service as ReportService,
+  FileManLocal,
+  TemplateLocal,
+} from './libs/report/carbone'
+import express from 'express'
+import cors from 'cors'
+import compression from 'compression'
+import helmet from 'helmet'
 
-// import routes from './routes'
-// import path from 'path'
 const port = process.env.PORT || 3000
 const apiVersion = process.env.API_VERSION || '/api/v1'
 
-const express = require('express')
-const cors = require('cors')
-const compression = require('compression')
-const helmet = require('helmet')
 const app = express()
 
 const routes: Array<CommonRoutesConfig> = []
+const baseDir: string = process.env.ReportDirectory || __dirname
+
+// init report service
+InitReportService(
+  new ReportService({
+    FileManager: new FileManLocal(baseDir),
+    Template: new TemplateLocal(baseDir),
+  }),
+)
 
 // global middleware
 // set middleware json parser

@@ -14,7 +14,7 @@ export class ReportRoutes extends CommonRoutesConfig {
     // generate report
     this.app.post(
       this.api,
-      body('payload').notEmpty().isJSON(),
+      body('payload').notEmpty().isObject(),
       body('templateId').notEmpty().isString(),
       reportMiddleware.validateRequest,
       reportController.generateReport,
