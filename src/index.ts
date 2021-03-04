@@ -1,6 +1,7 @@
 import { CommonRoutesConfig } from './routes/common'
 import { ReportRoutes } from './routes/report'
 import { Init as InitReportService } from './libs/report/index'
+import CommonMiddleware from './routes/common/middleware'
 import {
   Service as ReportService,
   FileManLocal,
@@ -10,6 +11,7 @@ import express from 'express'
 import cors from 'cors'
 import compression from 'compression'
 import helmet from 'helmet'
+import Configuration from './helper/configuration/index'
 
 const port = process.env.PORT || 3000
 const apiVersion = process.env.API_VERSION || '/api/v1'
@@ -17,7 +19,7 @@ const apiVersion = process.env.API_VERSION || '/api/v1'
 const app = express()
 
 const routes: Array<CommonRoutesConfig> = []
-const baseDir: string = process.env.ReportDirectory || __dirname
+const baseDir: string = Configuration.ReportDirectory || __dirname
 
 // init report service
 InitReportService(
@@ -40,8 +42,13 @@ app.use(compression())
 // can help protect your app from some well-known web vulnerabilities by setting HTTP headers appropriately.
 app.use(helmet())
 
+// token validation
+app.use(CommonMiddleware.validateToken(Configuration.HookTokenURL))
+
 // register routes
 routes.push(new ReportRoutes(app, apiVersion))
+
+console.log(Configuration)
 
 const server = app.listen(port, () => {
   routes.forEach((route: CommonRoutesConfig) => {

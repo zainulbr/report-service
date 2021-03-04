@@ -6,6 +6,7 @@
   "description": "service report backend service",
   "private": true,
   "dependencies": {
+    "axios": "^0.21.1",
     "carbone": "^2.1.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
