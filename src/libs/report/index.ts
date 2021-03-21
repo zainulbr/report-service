@@ -1,12 +1,16 @@
 import { Service } from './types'
-import { Service as CarboneSerivce } from './carbone'
 
-// default report service
-let _service: Service = new CarboneSerivce()
+// Report service
+let _service: Service
 
 // init report service
-export const Init = (service: Service) => {
+export const Init = function (service: Service) {
   _service = service
 }
 
-export default _service
+export default function (): Service {
+  if (!_service) {
+    throw new Error('Please init first')
+  }
+  return _service
+}

@@ -1,12 +1,7 @@
+import './init'
 import { CommonRoutesConfig } from './routes/common'
 import { ReportRoutes } from './routes/report'
-import { Init as InitReportService } from './libs/report/index'
 import CommonMiddleware from './routes/common/middleware'
-import {
-  Service as ReportService,
-  FileManLocal,
-  TemplateLocal,
-} from './libs/report/carbone'
 import express from 'express'
 import cors from 'cors'
 import compression from 'compression'
@@ -19,15 +14,6 @@ const apiVersion = process.env.API_VERSION || '/api/v1'
 const app = express()
 
 const routes: Array<CommonRoutesConfig> = []
-const baseDir: string = Configuration.ReportDirectory || __dirname
-
-// init report service
-InitReportService(
-  new ReportService({
-    FileManager: new FileManLocal(baseDir),
-    Template: new TemplateLocal(baseDir),
-  }),
-)
 
 // global middleware
 // set middleware json parser
