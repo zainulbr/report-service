@@ -10,8 +10,11 @@ const baseDir: string = Configuration.ReportDirectory || __dirname
 
 // init report service
 InitReportService(
-  new ReportService({
-    FileManager: new FileManLocal(baseDir),
-    Template: new TemplateLocal(baseDir),
-  }),
+  new ReportService(
+    {
+      FileManager: new FileManLocal(baseDir),
+      Template: new TemplateLocal(baseDir),
+    },
+    { convertTo: 'pdf' },
+  ),
 )

@@ -1,9 +1,8 @@
 import createReport from 'docx-templates'
 import { IO, FileManager, Template, Service as ReportService } from './types'
-
 import fs from 'fs'
 import path from 'path'
-
+import carbone from 'carbone'
 // ensureExists directory exists
 function ensureExists(path): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -122,6 +121,23 @@ export class Service implements ReportService {
               outName,
               result,
             )
+            if (this.options.convertTo === 'pdf') {
+              const outputPath =
+                absoluteFilePath.substr(0, absoluteFilePath.lastIndexOf('.')) +
+                '.pdf'
+
+              carbone.render(
+                absoluteFilePath,
+                data,
+                this.options,
+                function (err, result) {
+                  if (err) return reject(err)
+                  fs.writeFileSync(outputPath, result)
+                  resolve(outputPath)
+                },
+              )
+              return
+            }
             resolve(absoluteFilePath)
           })
           .catch((err) => reject(err))
