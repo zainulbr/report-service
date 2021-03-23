@@ -99,6 +99,8 @@ export class Service implements ReportService {
       try {
         const absoluteTemplatePath = this.io.Template.Resolve(templateName)
         const template = fs.readFileSync(absoluteTemplatePath)
+        outName = outName.lastIndexOf('.') < 0 ? outName + '.docx' : outName
+
         createReport({
           template,
           additionalJsContext: {
