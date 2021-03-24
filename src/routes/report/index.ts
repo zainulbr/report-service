@@ -28,6 +28,13 @@ export class ReportRoutes extends CommonRoutesConfig {
       reportController.getReport,
     )
 
+    // Check generated report is exists
+    this.app.get(
+      this.api + '/:reportId/exists',
+      body('reportId').notEmpty(),
+      reportController.reportExists,
+    )
+
     return this.app
   }
 }
