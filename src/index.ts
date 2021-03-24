@@ -34,8 +34,6 @@ app.use(CommonMiddleware.validateToken(Configuration.HookTokenURL))
 // register routes
 routes.push(new ReportRoutes(app, apiVersion))
 
-console.log(Configuration)
-
 const server = app.listen(port, () => {
   routes.forEach((route: CommonRoutesConfig) => {
     console.log(`Routes configured for ${route.getName()}`)

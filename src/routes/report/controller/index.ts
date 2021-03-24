@@ -60,6 +60,21 @@ class Controller {
     }
   }
 
+  async reportExists(req: express.Request, res: express.Response) {
+    try {
+      log('check report')
+      const absoluteReportPath = ReportService().Resolve(req.body.reportId)
+      if (fs.existsSync(absoluteReportPath)) {
+        res.status(200).send({})
+        return
+      }
+
+      res.status(204).send({})
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+
   async checkStatus(req: express.Request, res: express.Response) {
     // TBD
     res.status(200).send(``)
