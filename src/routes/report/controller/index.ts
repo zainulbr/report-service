@@ -11,9 +11,29 @@ class Controller {
     log('generate reprot')
     // Finds the validation errors in this request and wraps them in an object with handy functions
     try {
-      let data = req.body.payload
+      let data = {}
       const templateName = req.body.templateId
 
+      // validate template
+      if (!ReportService().TemplateExists(templateName)) {
+        res.status(400).send('Template not found')
+        return
+      }
+
+      // generate file name
+      const outputId = req.body.outputId
+        ? req.body.outputId
+        : String(new Date().getTime()) + '-' + templateName
+      console.log(outputId)
+
+      // get cached by output name
+      if (fs.existsSync(ReportService().Resolve(outputId))) {
+        console.log('get from cache')
+        res.status(200).send(outputId)
+        return
+      }
+
+      // request template data
       if (req.body.url) {
         const token = getTokenFromRequest(req)
         const resp = await axios.get(req.body.url, {
@@ -26,19 +46,15 @@ class Controller {
         }
         data = resp.data
       }
-      const outputId = req.body.outputId
-        ? req.body.outputId
-        : String(new Date().getTime()) + '-' + templateName
 
-      //
-      if (fs.existsSync(ReportService().Resolve(outputId))) {
-        res.status(200).send(outputId)
-        return
-      }
+      // generate report
+      const responseFileName = await ReportService().Generate(
+        data,
+        templateName,
+        outputId,
+      )
 
-      await ReportService().Generate(data, templateName, outputId)
-
-      res.status(200).send(outputId)
+      res.status(200).send(responseFileName)
     } catch (error) {
       console.log(error)
       res.status(500).send(error)
