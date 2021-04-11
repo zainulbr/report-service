@@ -99,8 +99,13 @@ export class Service implements ReportService {
       try {
         const absoluteTemplatePath = this.io.Template.Resolve(templateName)
         const template = fs.readFileSync(absoluteTemplatePath)
-        outName = outName.lastIndexOf('.') < 0 ? outName + '.docx' : outName
 
+        // prevent output file name extension is not same with template extension
+        outName =
+          outName.replace(path.extname(outName), '') +
+          path.extname(templateName)
+
+        // create report using docxtemplater
         createReport({
           template,
           additionalJsContext: {
@@ -123,9 +128,11 @@ export class Service implements ReportService {
               outName,
               result,
             )
+
+            // convert to pdf
             if (this.options.convertTo === 'pdf') {
               const outputPath =
-                absoluteFilePath.substr(0, absoluteFilePath.lastIndexOf('.')) +
+                absoluteFilePath.replace(path.extname(absoluteFilePath), '') +
                 '.pdf'
 
               carbone.render(
@@ -134,13 +141,17 @@ export class Service implements ReportService {
                 this.options,
                 function (err, result) {
                   if (err) return reject(err)
+                  // write pdf
                   fs.writeFileSync(outputPath, result)
-                  resolve(outputPath)
+                  // remove docx file
+                  fs.unlinkSync(absoluteFilePath)
+                  // return filename
+                  resolve(path.basename(outputPath))
                 },
               )
               return
             }
-            resolve(absoluteFilePath)
+            resolve(path.basename(absoluteFilePath))
           })
           .catch((err) => reject(err))
       } catch (error) {
@@ -155,5 +166,9 @@ export class Service implements ReportService {
 
   SaveTemplate(fileName: string, buff: Buffer): Promise<string> {
     return this.io.Template.Save(fileName, buff)
+  }
+
+  TemplateExists(fileName: string): boolean {
+    return fs.existsSync(this.io.Template.Resolve(fileName))
   }
 }
