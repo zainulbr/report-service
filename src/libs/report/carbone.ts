@@ -148,4 +148,8 @@ export class Service implements ReportService {
   SaveTemplate(fileName: string, buff: Buffer): Promise<string> {
     return this.io.Template.Save(fileName, buff)
   }
+
+  TemplateExists(fileName: string): boolean {
+    return fs.existsSync(this.io.Template.Resolve(fileName))
+  }
 }
