@@ -26,4 +26,5 @@ export interface Service {
   Resolve(fileName: string): string
   SaveTemplate(fileName: string, buff: Buffer): Promise<string>
   TemplateExists(fileName: string): boolean
+  SERVICE_NAME: string
 }

@@ -1,5 +1,6 @@
 import express from 'express'
-import ReportService from '../../../libs/report'
+import ReportService, { SelectService } from '../../../libs/report'
+import { SERVICE_CARBONE, SERVICE_DOCX } from '../../../libs/report/abstract'
 import debug from 'debug'
 import axios from 'axios'
 import { getTokenFromRequest } from '../../../helper/token/index'
@@ -12,7 +13,13 @@ class Controller {
     // Finds the validation errors in this request and wraps them in an object with handy functions
     try {
       let data = {}
-      const templateName = req.body.templateId
+      const templateName = req.body.templateId as string
+
+      if (templateName.includes('xls')) {
+        SelectService(SERVICE_CARBONE)
+      } else {
+        SelectService(SERVICE_DOCX)
+      }
 
       // validate template
       if (!ReportService().TemplateExists(templateName)) {
