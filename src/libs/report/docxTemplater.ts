@@ -1,5 +1,6 @@
 import createReport from 'docx-templates'
-import { IO, FileManager, Template, Service as ReportService } from './types'
+import { IO, FileManager, Template } from './types'
+import { BaseService, SERVICE_DOCX } from './abstract'
 import fs from 'fs'
 import path from 'path'
 import carbone from 'carbone'
@@ -75,7 +76,7 @@ export interface Options {
 }
 
 //   Carbone.io report service
-export class Service implements ReportService {
+export class Service extends BaseService {
   io: IO
   options: Options
   constructor(
@@ -85,6 +86,7 @@ export class Service implements ReportService {
     },
     opt?: Options,
   ) {
+    super()
     this.io = io
 
     this.options = opt || {}
@@ -170,5 +172,9 @@ export class Service implements ReportService {
 
   TemplateExists(fileName: string): boolean {
     return fs.existsSync(this.io.Template.Resolve(fileName))
+  }
+
+  get SERVICE_NAME(): string {
+    return SERVICE_DOCX
   }
 }
