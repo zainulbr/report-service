@@ -11,7 +11,7 @@ import {
 } from './libs/report/docxTemplater'
 import Configuration from './helper/configuration/index'
 
-const baseDir: string = Configuration.ReportDirectory || __dirname
+const baseDir = Configuration.ReportDirectory || __dirname
 
 // init report service
 InitReportService(
