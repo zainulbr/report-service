@@ -11,22 +11,16 @@ import {
 } from './libs/report/docxTemplater'
 import Configuration from './helper/configuration/index'
 
-const baseDir: string = Configuration.ReportDirectory || __dirname
+const baseDir = Configuration.ReportDirectory || __dirname
 
 // init report service
 InitReportService(
-  new ReportServiceCarbone(
-    {
-      FileManager: new FileManCarbone(baseDir),
-      Template: new TemplateCarbone(baseDir),
-    },
-    { convertTo: 'xlsx' },
-  ),
-  new ReportServiceDocx(
-    {
-      FileManager: new FileManDocx(baseDir),
-      Template: new TemplateDocx(baseDir),
-    },
-    { convertTo: 'pdf' },
-  ),
+  new ReportServiceCarbone({
+    FileManager: new FileManCarbone(baseDir),
+    Template: new TemplateCarbone(baseDir),
+  }),
+  new ReportServiceDocx({
+    FileManager: new FileManDocx(baseDir),
+    Template: new TemplateDocx(baseDir),
+  }),
 )
