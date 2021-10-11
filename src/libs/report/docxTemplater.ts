@@ -132,6 +132,9 @@ export class Service extends BaseService {
               result,
             )
 
+            this.options.convertTo = 'pdf'
+            if (/xlsx?$/gm.test(templateName)) this.options.convertTo = 'xlsx'
+
             // convert to pdf
             if (this.options.convertTo === 'pdf') {
               const outputPath =

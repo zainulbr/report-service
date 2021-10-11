@@ -15,11 +15,8 @@ class Controller {
       let data = {}
       const templateName = req.body.templateId as string
 
-      if (templateName.includes('xls')) {
-        SelectService(SERVICE_CARBONE)
-      } else {
-        SelectService(SERVICE_DOCX)
-      }
+      if (req.body.isContainsImage) SelectService(SERVICE_DOCX)
+      else SelectService(SERVICE_CARBONE)
 
       // validate template
       if (!ReportService().TemplateExists(templateName)) {

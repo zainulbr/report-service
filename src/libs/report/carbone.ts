@@ -119,13 +119,18 @@ export class Service extends BaseService {
         //   lastname : 'Doe'
         // };
 
+        let convertTo = 'pdf'
+        if (/xlsx?$/gm.test(templateName)) convertTo = 'xlsx'
+
+        const newOpts = { ...this.options, convertTo, ...opts }
+
         // Generate a report using the sample template provided by carbone module
         // This LibreOffice template contains "Hello {d.firstname} {d.lastname} !"
         // Of course, you can create your own templates!
         carbone.render(
           absoluteTemplatePath,
           data,
-          { ...this.options, ...opts },
+          newOpts,
           async (err, result) => {
             if (err) {
               reject(err)
