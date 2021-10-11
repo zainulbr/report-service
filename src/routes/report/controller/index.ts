@@ -59,6 +59,7 @@ class Controller {
         data,
         templateName,
         outputId,
+        req.body?.opts || {},
       )
 
       res.status(200).send(responseFileName)

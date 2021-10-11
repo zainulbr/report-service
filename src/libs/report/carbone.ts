@@ -107,6 +107,7 @@ export class Service extends BaseService {
     data: Array<any> | Object,
     templateName: string,
     outName: string,
+    opts: Record<string, any> = {},
   ): Promise<string> {
     return new Promise((resolve, reject) => {
       try {
@@ -124,7 +125,7 @@ export class Service extends BaseService {
         carbone.render(
           absoluteTemplatePath,
           data,
-          this.options,
+          { ...this.options, ...opts },
           async (err, result) => {
             if (err) {
               reject(err)
