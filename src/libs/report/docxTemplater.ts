@@ -96,6 +96,7 @@ export class Service extends BaseService {
     data: Array<any> | Object,
     templateName: string,
     outName: string,
+    opts: Record<string, any> = {},
   ): Promise<string> {
     return new Promise((resolve, reject) => {
       try {
@@ -143,7 +144,7 @@ export class Service extends BaseService {
               carbone.render(
                 absoluteFilePath,
                 data,
-                this.options,
+                { ...this.options, ...opts },
                 function (err, result) {
                   if (err) return reject(err)
                   // write pdf

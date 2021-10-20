@@ -22,6 +22,7 @@ export interface Service {
     data: Array<any> | Object,
     templateName: string,
     outName: string,
+    opts?: Record<string, any>,
   ): Promise<string>
   Resolve(fileName: string): string
   SaveTemplate(fileName: string, buff: Buffer): Promise<string>
